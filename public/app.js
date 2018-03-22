@@ -19,7 +19,7 @@ $(document).on("click", "button", function() {
   // Run a POST request to change the note, using what's entered in the inputs
   $.ajax({
     method: "POST",
-    url: "/saved/" + thisId,
+    url: "/save/" + thisId,
     data: {
       // Value taken from title input
       title: $("#titleinput").val(),

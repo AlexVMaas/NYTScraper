@@ -38,7 +38,7 @@ mongoose.connect("mongodb://localhost/NYTScraper", {
 
 // A GET route for scraping the echojs website
 app.get("/scrape", function(req, res) {
-  axios.get("http://www.echojs.com/").then(function(response) {
+  axios.get("http://www.nyt.com/").then(function(response) {
     var $ = cheerio.load(response.data);
     $("article h2").each(function(i, element) {
       var result = {};
@@ -73,7 +73,7 @@ app.get("/articles", function(req, res) {
 
 // Route for getting all Articles from the db
 app.get("/saved", function(req, res) {
-  db.Article.find({})
+  db.Save.find({})
     .then(function(dbArticle) {
       res.json(dbArticle);
     })
@@ -81,6 +81,31 @@ app.get("/saved", function(req, res) {
       res.json(err);
     });
 });
+
+  app.post("/save/:id", function(req, res) {
+    db.Save.create(req.body)
+    .then(function(dbArticle) {
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+  });
+//         var result = {};
+//       result.title = $(this)
+//         .children("a")
+//         .text();
+//       result.link = $(this)
+//         .children("a")
+//         .attr("href");
+//       db.Article.create(result)
+//         .then(function(dbArticle) {
+//           console.log(dbArticle);
+//         })
+//         .catch(function(err) {
+//           return res.json(err);
+//         });
+// })
 
 
 // Route for grabbing a specific Article by id, populate it with it's note
@@ -115,7 +140,7 @@ app.post("/saved/:id", function(req, res) {
   });
 
   app.get("/save", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/save.html"));
+    res.sendFile(path.join(__dirname, "./public/save.html"));
   });
 
 
